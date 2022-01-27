@@ -39,7 +39,7 @@ px4_add_board(
 		#tap_esc
 		#telemetry # all available telemetry drivers
 		#test_ppm
-		#tone_alarm
+		tone_alarm
 		#uavcan
 		#uart_esc/modalai_esc
 	MODULES
@@ -64,9 +64,11 @@ px4_add_board(
 		mc_rate_control
 		navigator
 		rc_update
+		replay
 		rover_pos_control
 		sensors
 		sih
+		simulator
 		temperature_compensation
 		vmount
 		vtol_att_control
