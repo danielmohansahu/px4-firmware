@@ -155,6 +155,7 @@ RCUpdate::update_rc_functions()
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_OFFBOARD] = _param_rc_map_offb_sw.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_KILLSWITCH] = _param_rc_map_kill_sw.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_ARMSWITCH] = _param_rc_map_arm_sw.get() - 1;
+	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_TURTLESWITCH] = _param_rc_map_turtle_sw.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_TRANSITION] = _param_rc_map_trans_sw.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_GEAR] = _param_rc_map_gear_sw.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_STAB] = _param_rc_map_stab_sw.get() - 1;
@@ -167,7 +168,6 @@ RCUpdate::update_rc_functions()
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_AUX_3] = _param_rc_map_aux3.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_AUX_4] = _param_rc_map_aux4.get() - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_AUX_5] = _param_rc_map_aux5.get() - 1;
-	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_AUX_6] = _param_rc_map_aux6.get() - 1;
 
 	for (int i = 0; i < rc_parameter_map_s::RC_PARAM_MAP_NCHAN; i++) {
 		_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_PARAM_1 + i] = _parameters.rc_map_param[i] - 1;
@@ -463,7 +463,6 @@ RCUpdate::Run()
 			manual_control_setpoint.aux3 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_3, -1.0, 1.0);
 			manual_control_setpoint.aux4 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_4, -1.0, 1.0);
 			manual_control_setpoint.aux5 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_5, -1.0, 1.0);
-			manual_control_setpoint.aux6 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_6, -1.0, 1.0);
 
 			if (_param_rc_map_fltmode.get() > 0) {
 				/* number of valid slots */
@@ -513,6 +512,8 @@ RCUpdate::Run()
 							      _param_rc_killswitch_th.get(), _param_rc_killswitch_th.get() < 0.f);
 			manual_control_setpoint.arm_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_ARMSWITCH,
 							     _param_rc_armswitch_th.get(), _param_rc_armswitch_th.get() < 0.f);
+			manual_control_setpoint.turtle_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_TURTLESWITCH,
+							     _param_rc_turtleswitch_th.get(), _param_rc_turtleswitch_th.get() < 0.f);
 			manual_control_setpoint.transition_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_TRANSITION,
 					_param_rc_trans_th.get(), _param_rc_trans_th.get() < 0.f);
 			manual_control_setpoint.gear_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_GEAR,

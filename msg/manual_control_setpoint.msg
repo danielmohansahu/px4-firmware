@@ -59,6 +59,7 @@ uint8 acro_switch		 # acro 2 position switch (optional): _MANUAL_, ACRO
 uint8 offboard_switch	 	 # offboard 2 position switch (optional): _NORMAL_, OFFBOARD
 uint8 kill_switch		 # throttle kill: _NORMAL_, KILL
 uint8 arm_switch		 # arm/disarm switch: _DISARMED_, ARMED
+uint8 turtle_switch  # turtlemode switch: _DISABLED_, ENABLED
 uint8 transition_switch	 # VTOL transition switch: _HOVER, FORWARD_FLIGHT
 uint8 gear_switch	 # landing gear switch: _DOWN_, UP
 uint8 mode_slot			 # the slot a specific model selector is in
