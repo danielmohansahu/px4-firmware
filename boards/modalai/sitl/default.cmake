@@ -1,28 +1,19 @@
 
 px4_add_board(
-	PLATFORM nuttx
+	PLATFORM posix
 	VENDOR modalai
-	MODEL fc-v1
+	MODEL sitl
 	LABEL default
-	TOOLCHAIN arm-none-eabi
-	ARCHITECTURE cortex-m7
-	ROMFSROOT px4fmu_common
 	TESTING
-	UAVCAN_INTERFACES 1
-	SERIAL_PORTS
-		GPS1:/dev/ttyS0 # UART1  / J10
-		TEL1:/dev/ttyS6 # UART7  / J5
-		TEL2:/dev/ttyS4 # UART5  / J1
-		TEL3:/dev/ttyS1 # USART2 / J4
 	DRIVERS
-		adc
+		#adc
 		#barometer # all available barometer drivers
 		#batt_smbus
 		camera_capture
 		camera_trigger
 		#differential_pressure # all available differential pressure drivers
 		#distance_sensor # all available distance sensor drivers
-		dshot
+		#dshot
 		gps
 		#imu/bosch/bmi088
 		#imu/invensense/icm20602
@@ -32,25 +23,25 @@ px4_add_board(
 		#lights/rgbled
 		#lights/rgbled_ncp5623c
 		#magnetometer # all available magnetometer drivers
-		mkblctrl
+		#mkblctrl
 		#optical_flow # all available optical flow drivers
 		#osd
-		pca9685
+		#pca9685
 		power_monitor/ina226
 		power_monitor/voxlpm
 		#protocol_splitter
 		#pwm_input
 		pwm_out_sim
-		pwm_out
-		rc_input
+		#pwm_out
+		#rc_input
 		roboclaw
-		safety_button
-		tap_esc
+		#safety_button
+		#tap_esc
 		#telemetry # all available telemetry drivers
-		test_ppm
+		#test_ppm
 		#tone_alarm
 		#uavcan
-		uart_esc/modalai_esc
+		#uart_esc/modalai_esc
 	MODULES
 		airspeed_selector
 		attitude_estimator_q
@@ -80,30 +71,30 @@ px4_add_board(
 		vmount
 		vtol_att_control
 	SYSTEMCMDS
-		bl_update
-		dmesg
+		#bl_update
+		#dmesg
 		dumpfile
 		esc_calib
-		hardfault_log
-		i2cdetect
+		#hardfault_log
+		#i2cdetect
 		led_control
 		mixer
-		modalai
+		#modalai
 		motor_ramp
 		motor_test
-		mtd
-		nshterm
+		#mtd
+		#nshterm
 		param
 		perf
 		pwm
-		reboot
-		reflect
+		#reboot
+		#reflect
 		sd_bench
 		tests # tests and test runner
 		top
 		topic_listener
 		tune_control
-		usb_connected
+		#usb_connected
 		ver
 		work_queue
 	EXAMPLES
