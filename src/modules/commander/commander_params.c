@@ -940,3 +940,14 @@ PARAM_DEFINE_INT32(COM_POWER_COUNT, 1);
  * @decimal 3
  */
 PARAM_DEFINE_FLOAT(COM_LKDOWN_TKO, 3.0f);
+
+/**
+ * Flip After Crash (AKA Turtle Mode)
+ *
+ * Default disabled - if enabled this bypasses the default
+ * controller to allow flipping over.
+ *
+ * @group Commander
+ * @boolean
+ */
+PARAM_DEFINE_INT32(COM_TURTLE_MODE, 0);

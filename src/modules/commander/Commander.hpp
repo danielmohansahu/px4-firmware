@@ -257,7 +257,10 @@ private:
 		(ParamInt<px4::params::MAV_SYS_ID>) _param_mav_sys_id,
 		(ParamInt<px4::params::MAV_TYPE>) _param_mav_type,
 
-		(ParamFloat<px4::params::CP_DIST>) _param_cp_dist
+		(ParamFloat<px4::params::CP_DIST>) _param_cp_dist,
+
+		// Turtle mode
+		(ParamBool<px4::params::COM_TURTLE_MODE>) _param_turtle_mode
 	)
 
 	enum class PrearmedMode {
