@@ -2355,6 +2355,18 @@ Commander::run()
 
 		_was_armed = armed.armed;
 
+		// check if turtle mode is activated, requested, and we're armed
+		if (_param_turtle_mode.get() && armed.armed && _last_manual_control_setpoint.timestamp != 0 && _last_manual_control_setpoint.turtle_switch) {
+			// indicate a status change if this is a leading edge
+			_status_changed = !_turtle_mode ? true : _status_changed;
+			_turtle_mode = true;
+		} else {
+			// indicate a status change if this is a falling edge
+			_status_changed = _turtle_mode ? true : _status_changed;
+			_turtle_mode = false;
+		}
+
+
 		/* now set navigation state according to failsafe and main state */
 		bool nav_state_changed = set_nav_state(&status,
 						       &armed,
@@ -3275,6 +3287,7 @@ Commander::update_control_mode()
 	case vehicle_status_s::NAVIGATION_STATE_ACRO:
 		control_mode.flag_control_manual_enabled = true;
 		control_mode.flag_control_rates_enabled = true;
+		control_mode.flag_control_turtle_enabled = _turtle_mode;
 		break;
 
 	case vehicle_status_s::NAVIGATION_STATE_DESCEND:

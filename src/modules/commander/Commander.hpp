@@ -370,6 +370,7 @@ private:
 	bool		_arm_tune_played{false};
 	bool		_was_landed{true};
 	bool		_was_armed{false};
+	bool		_turtle_mode{false};
 	bool		_failsafe_old{false};	///< check which state machines for changes, clear "changed" flag
 	bool		_have_taken_off_since_arming{false};
 	bool		_should_set_home_on_takeoff{true};
