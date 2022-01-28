@@ -2356,6 +2356,9 @@ Commander::run()
 		_was_armed = armed.armed;
 
 		// check if turtle mode is activated, requested, and we're armed
+		//  note - there's a potential bug here since we're not checking if the manual_control_setpoint
+		//  has transitioned recently; it's effectively latched. A problem state could occur if the user
+		//  arms and no new manual_control_setpoint is published since disarming
 		if (_param_turtle_mode.get() && armed.armed && _last_manual_control_setpoint.timestamp != 0 && _last_manual_control_setpoint.turtle_switch) {
 			// indicate a status change if this is a leading edge
 			_status_changed = !_turtle_mode ? true : _status_changed;
