@@ -53,7 +53,8 @@ enum class SDLogProfileMask : int32_t {
 	SENSOR_COMPARISON =     1 << 6,
 	VISION_AND_AVOIDANCE =  1 << 7,
 	RAW_IMU_GYRO_FIFO =     1 << 8,
-	RAW_IMU_ACCEL_FIFO =    1 << 9
+	RAW_IMU_ACCEL_FIFO =    1 << 9,
+	GPS_TOPICS = 		1 << 10
 };
 
 enum class MissionLogType : int32_t {
@@ -142,16 +143,16 @@ private:
 	 */
 	void initialize_configured_topics(SDLogProfileMask profile);
 
-	void add_default_topics();
-	void add_estimator_replay_topics();
-	void add_thermal_calibration_topics();
-	void add_system_identification_topics();
-	void add_high_rate_topics();
-	void add_debug_topics();
-	void add_sensor_comparison_topics();
-	void add_vision_and_avoidance_topics();
-	void add_raw_imu_gyro_fifo();
-	void add_raw_imu_accel_fifo();
+	void add_default_topics(bool log_gps);
+	void add_estimator_replay_topics(bool log_gps);
+	void add_thermal_calibration_topics(bool log_gps);
+	void add_system_identification_topics(bool log_gps);
+	void add_high_rate_topics(bool log_gps);
+	void add_debug_topics(bool log_gps);
+	void add_sensor_comparison_topics(bool log_gps);
+	void add_vision_and_avoidance_topics(bool log_gps);
+	void add_raw_imu_gyro_fifo(bool log_gps);
+	void add_raw_imu_accel_fifo(bool log_gps);
 
 	/**
 	 * add a logged topic (called by add_topic() above).

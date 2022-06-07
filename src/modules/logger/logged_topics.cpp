@@ -43,7 +43,7 @@
 
 using namespace px4::logger;
 
-void LoggedTopics::add_default_topics()
+void LoggedTopics::add_default_topics(bool log_gps)
 {
 	add_topic("actuator_armed");
 	add_topic("actuator_controls_0", 50);
@@ -191,7 +191,7 @@ void LoggedTopics::add_default_topics()
 	}
 }
 
-void LoggedTopics::add_high_rate_topics()
+void LoggedTopics::add_high_rate_topics(bool log_gps)
 {
 	// maximum rate to analyze fast maneuvers (e.g. for racing)
 	add_topic("actuator_controls_0");
@@ -208,7 +208,7 @@ void LoggedTopics::add_high_rate_topics()
 	add_topic("esc_status");
 }
 
-void LoggedTopics::add_debug_topics()
+void LoggedTopics::add_debug_topics(bool log_gps)
 {
 	add_topic("debug_array");
 	add_topic("debug_key_value");
@@ -217,7 +217,7 @@ void LoggedTopics::add_debug_topics()
 	add_topic_multi("satellite_info", 1000, 2);
 }
 
-void LoggedTopics::add_estimator_replay_topics()
+void LoggedTopics::add_estimator_replay_topics(bool log_gps)
 {
 	// for estimator replay (need to be at full rate)
 	add_topic("ekf2_timestamps");
@@ -236,14 +236,14 @@ void LoggedTopics::add_estimator_replay_topics()
 	add_topic_multi("distance_sensor");
 }
 
-void LoggedTopics::add_thermal_calibration_topics()
+void LoggedTopics::add_thermal_calibration_topics(bool log_gps)
 {
 	add_topic_multi("sensor_accel", 100, 3);
 	add_topic_multi("sensor_baro", 100, 3);
 	add_topic_multi("sensor_gyro", 100, 3);
 }
 
-void LoggedTopics::add_sensor_comparison_topics()
+void LoggedTopics::add_sensor_comparison_topics(bool log_gps)
 {
 	add_topic_multi("sensor_accel", 100, 3);
 	add_topic_multi("sensor_baro", 100, 3);
@@ -251,7 +251,7 @@ void LoggedTopics::add_sensor_comparison_topics()
 	add_topic_multi("sensor_mag", 100, 4);
 }
 
-void LoggedTopics::add_vision_and_avoidance_topics()
+void LoggedTopics::add_vision_and_avoidance_topics(bool log_gps)
 {
 	add_topic("collision_constraints");
 	add_topic("obstacle_distance_fused");
@@ -261,17 +261,17 @@ void LoggedTopics::add_vision_and_avoidance_topics()
 	add_topic("vehicle_visual_odometry", 30);
 }
 
-void LoggedTopics::add_raw_imu_gyro_fifo()
+void LoggedTopics::add_raw_imu_gyro_fifo(bool log_gps)
 {
 	add_topic("sensor_gyro_fifo");
 }
 
-void LoggedTopics::add_raw_imu_accel_fifo()
+void LoggedTopics::add_raw_imu_accel_fifo(bool log_gps)
 {
 	add_topic("sensor_accel_fifo");
 }
 
-void LoggedTopics::add_system_identification_topics()
+void LoggedTopics::add_system_identification_topics(bool log_gps)
 {
 	// for system id need to log imu and controls at full rate
 	add_topic("actuator_controls_0");
@@ -440,45 +440,48 @@ bool LoggedTopics::initialize_logged_topics(SDLogProfileMask profile)
 
 void LoggedTopics::initialize_configured_topics(SDLogProfileMask profile)
 {
+	// check if we want GPS topics
+	const bool log_gps = profile & SDLogProfileMask::GPS_TOPICS;
+
 	// load appropriate topics for profile
 	// the order matters: if several profiles add the same topic, the logging rate of the last one will be used
 	if (profile & SDLogProfileMask::DEFAULT) {
-		add_default_topics();
+		add_default_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::ESTIMATOR_REPLAY) {
-		add_estimator_replay_topics();
+		add_estimator_replay_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::THERMAL_CALIBRATION) {
-		add_thermal_calibration_topics();
+		add_thermal_calibration_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::SYSTEM_IDENTIFICATION) {
-		add_system_identification_topics();
+		add_system_identification_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::HIGH_RATE) {
-		add_high_rate_topics();
+		add_high_rate_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::DEBUG_TOPICS) {
-		add_debug_topics();
+		add_debug_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::SENSOR_COMPARISON) {
-		add_sensor_comparison_topics();
+		add_sensor_comparison_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::VISION_AND_AVOIDANCE) {
-		add_vision_and_avoidance_topics();
+		add_vision_and_avoidance_topics(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::RAW_IMU_GYRO_FIFO) {
-		add_raw_imu_gyro_fifo();
+		add_raw_imu_gyro_fifo(log_gps);
 	}
 
 	if (profile & SDLogProfileMask::RAW_IMU_ACCEL_FIFO) {
-		add_raw_imu_accel_fifo();
+		add_raw_imu_accel_fifo(log_gps);
 	}
 }
