@@ -197,6 +197,10 @@ void LoggedTopics::add_default_topics(bool log_gps)
 		add_topic("vehicle_local_position", 100);
 		add_topic("vehicle_roi", 1000);
 		add_topic_multi("sensor_gps", 1000, 2);
+	} else {
+		// subcribe to dummy values instead
+		add_topic("vehicle_local_position_clean", 100);
+		add_topic("vehicle_global_position_clean", 200);
 	}
 
 
