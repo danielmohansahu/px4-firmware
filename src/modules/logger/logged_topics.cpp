@@ -54,17 +54,13 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	add_topic("actuator_controls_5", 100);
 	add_topic("airspeed", 1000);
 	add_topic("airspeed_validated", 200);
-	add_topic("camera_capture");
 	add_topic("camera_trigger");
 	add_topic("camera_trigger_secondary");
-	add_topic("cellular_status", 200);
 	add_topic("commander_state");
 	add_topic("cpuload");
 	add_topic("esc_status", 250);
-	add_topic("follow_target", 500);
 	add_topic("generator_status");
 	add_topic("heater_status");
-	add_topic("home_position");
 	add_topic("hover_thrust_estimate", 100);
 	add_topic("input_rc", 500);
 	add_topic("mag_worker_data");
@@ -72,12 +68,10 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	add_topic("manual_control_switches");
 	add_topic("mission");
 	add_topic("mission_result");
-	add_topic("navigator_mission_item");
 	add_topic("offboard_control_mode", 100);
 	add_topic("onboard_computer_status", 10);
 	add_topic("parameter_update");
 	add_topic("position_controller_status", 500);
-	add_topic("position_setpoint_triplet", 200);
 	add_topic("px4io_status");
 	add_topic("radio_status");
 	add_topic("rpm", 500);
@@ -94,23 +88,17 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	add_topic("tecs_status", 200);
 	add_topic("test_motor", 500);
 	add_topic("trajectory_setpoint", 200);
-	add_topic("transponder_report");
 	add_topic("vehicle_acceleration", 50);
 	add_topic("vehicle_air_data", 200);
 	add_topic("vehicle_angular_velocity", 20);
 	add_topic("vehicle_attitude", 50);
 	add_topic("vehicle_attitude_setpoint", 50);
-	add_topic("vehicle_command");
 	add_topic("vehicle_constraints", 1000);
 	add_topic("vehicle_control_mode");
-	add_topic("vehicle_global_position", 200);
-	add_topic("vehicle_gps_position", 500);
 	add_topic("vehicle_land_detected");
-	add_topic("vehicle_local_position", 100);
 	add_topic("vehicle_local_position_setpoint", 100);
 	add_topic("vehicle_magnetometer", 200);
 	add_topic("vehicle_rates_setpoint", 20);
-	add_topic("vehicle_roi", 1000);
 	add_topic("vehicle_status");
 	add_topic("vehicle_status_flags");
 	add_topic("vtol_vehicle_status", 200);
@@ -138,9 +126,11 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	static constexpr uint8_t MAX_ESTIMATOR_INSTANCES = 6; // artificailly limited until PlotJuggler fixed
 	add_topic("estimator_selector_status");
 	add_topic_multi("estimator_attitude", 500, MAX_ESTIMATOR_INSTANCES);
-	add_topic_multi("estimator_global_position", 1000, MAX_ESTIMATOR_INSTANCES);
-	add_topic_multi("estimator_local_position", 500, MAX_ESTIMATOR_INSTANCES);
 	add_topic_multi("estimator_wind", 1000, MAX_ESTIMATOR_INSTANCES);
+	if (log_gps) {
+		add_topic_multi("estimator_global_position", 1000, MAX_ESTIMATOR_INSTANCES);
+		add_topic_multi("estimator_local_position", 500, MAX_ESTIMATOR_INSTANCES);
+	}
 #endif
 
 	add_topic_multi("ekf_gps_drift", 1000, MAX_ESTIMATOR_INSTANCES);
@@ -163,7 +153,6 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	add_topic_multi("optical_flow", 1000, 1);
 	add_topic_multi("sensor_accel", 1000, 4);
 	add_topic_multi("sensor_baro", 1000, 4);
-	add_topic_multi("sensor_gps", 1000, 2);
 	add_topic_multi("sensor_gyro", 1000, 4);
 	add_topic_multi("sensor_mag", 1000, 4);
 	add_topic_multi("vehicle_imu", 500, 4);
@@ -179,16 +168,38 @@ void LoggedTopics::add_default_topics(bool log_gps)
 	add_topic("vehicle_angular_acceleration", 10);
 	add_topic("vehicle_angular_velocity", 10);
 	add_topic("vehicle_attitude_groundtruth", 10);
-	add_topic("vehicle_global_position_groundtruth", 100);
-	add_topic("vehicle_local_position_groundtruth", 100);
+	if (log_gps) {
+		add_topic("vehicle_global_position_groundtruth", 100);
+		add_topic("vehicle_local_position_groundtruth", 100);
+	}
 #endif /* CONFIG_ARCH_BOARD_PX4_SITL */
 
-	int32_t gps_dump_comm = 0;
-	param_get(param_find("GPS_DUMP_COMM"), &gps_dump_comm);
+	// topics with sensitive information
+	if (log_gps) {
 
-	if (gps_dump_comm == 1) {
-		add_topic("gps_dump");
+		int32_t gps_dump_comm = 0;
+		param_get(param_find("GPS_DUMP_COMM"), &gps_dump_comm);
+
+		if (gps_dump_comm == 1) {
+			add_topic("gps_dump");
+		}
+
+		add_topic("camera_capture");
+		add_topic("cellular_status", 200);
+		add_topic("follow_target", 500);
+		add_topic("home_position");
+		add_topic("navigator_mission_item");
+		add_topic("position_setpoint_triplet", 200);
+		add_topic("transponder_report");
+		add_topic("vehicle_command");
+		add_topic("vehicle_global_position", 200);
+		add_topic("vehicle_gps_position", 500);
+		add_topic("vehicle_local_position", 100);
+		add_topic("vehicle_roi", 1000);
+		add_topic_multi("sensor_gps", 1000, 2);
 	}
+
+
 }
 
 void LoggedTopics::add_high_rate_topics(bool log_gps)
@@ -214,7 +225,8 @@ void LoggedTopics::add_debug_topics(bool log_gps)
 	add_topic("debug_key_value");
 	add_topic("debug_value");
 	add_topic("debug_vect");
-	add_topic_multi("satellite_info", 1000, 2);
+	if (log_gps)
+		add_topic_multi("satellite_info", 1000, 2);
 }
 
 void LoggedTopics::add_estimator_replay_topics(bool log_gps)
@@ -228,12 +240,13 @@ void LoggedTopics::add_estimator_replay_topics(bool log_gps)
 	add_topic("sensor_combined");
 	add_topic("sensor_selection");
 	add_topic("vehicle_air_data");
-	add_topic("vehicle_gps_position");
 	add_topic("vehicle_land_detected");
 	add_topic("vehicle_magnetometer");
 	add_topic("vehicle_status");
 	add_topic("vehicle_visual_odometry");
 	add_topic_multi("distance_sensor");
+	if (log_gps)
+		add_topic("vehicle_gps_position");
 }
 
 void LoggedTopics::add_thermal_calibration_topics(bool log_gps)
