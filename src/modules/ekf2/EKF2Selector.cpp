@@ -518,6 +518,12 @@ void EKF2Selector::PublishVehicleLocalPosition()
 
 			local_position.timestamp = hrt_absolute_time();
 			_vehicle_local_position_pub.publish(local_position);
+
+			// also publish a version without lat / long information
+			vehicle_local_position_s clean_pos {local_position};
+			clean_pos.ref_lat = 0;
+			clean_pos.ref_lon = 0;
+			_vehicle_local_position_clean_pub.publish(clean_pos);
 		}
 	}
 }
@@ -615,6 +621,12 @@ void EKF2Selector::PublishVehicleGlobalPosition()
 
 			global_position.timestamp = hrt_absolute_time();
 			_vehicle_global_position_pub.publish(global_position);
+
+			// also publish a version without lat / long information
+			vehicle_global_position_s clean_pos {global_position};
+			clean_pos.lat = 0;
+			clean_pos.lon = 0;
+			_vehicle_global_position_pub.publish(clean_pos);
 		}
 	}
 }
