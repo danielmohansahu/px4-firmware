@@ -36,20 +36,22 @@ param set-default FD_FAIL_R 180
 
 # PID controller tuning params
 param set-default MC_PITCH_P 8
+param set-default MC_PITCH_CUTOFF 60.0000
 param set-default MC_PITCHRATE_D 0.0013
 param set-default MC_PITCHRATE_I 0.7312
 param set-default MC_PITCHRATE_MAX 1600
 param set-default MC_PITCHRATE_P 0.1050
 param set-default MC_ROLL_P 8
+param set-default MC_ROLL_CUTOFF 60.0000
 param set-default MC_ROLLRATE_D 0.0013
 param set-default MC_ROLLRATE_I 0.5685
 param set-default MC_ROLLRATE_MAX 1600
 param set-default MC_ROLLRATE_P 0.0908
 param set-default MC_YAW_P 1.5
 param set-default MC_YAW_CUTOFF 25.02
-param set-default MC_YAWRATE_I 8.1473
+param set-default MC_YAWRATE_I 6.3370
 param set-default MC_YAWRATE_MAX 1300.0000
-param set-default MC_YAWRATE_P 0.1780
+param set-default MC_YAWRATE_P 0.1380
 
 # RC controller feel params
 param set-default MC_ACRO_EXPO 0.3000
@@ -60,36 +62,33 @@ param set-default MC_ACRO_SUPEXPO 0.8400
 param set-default MC_ACRO_SUPEXPOY 0.8400
 param set-default MC_ACRO_Y_MAX 900.0000
 
-# RC controller mapping params
+# RC controller params
 param set-default COM_FLTMODE1 1
 param set-default COM_FLTMODE4 1
-param set-default COM_FLTMODE6 6
-param set-default COM_RCL_ACT_T 0.5000
+param set-default COM_FLTMODE6 1
+param set-default COM_RCL_ACT_T 3.000
+param set-default COM_RC_LOSS_T 0.3000
 
 # Flight Performance restriction params
 param set-default MPC_MANTHR_MIN 0.0400
 param set-default MPC_MAN_TILT_MAX 20.0000
-param set-default MPC_TILTMAX_AIR 20.0000
-param set-default MPC_MAN_Y_MAX 150.0
+param set-default MPC_MAN_Y_MAX 300.0000
 param set-default MPC_THR_MAX 0.8000
 param set-default MPC_THR_MIN 0.0400
 param set-default MPC_JERK_MAX 15.0000
 param set-default MPC_XY_VEL_I_ACC 0.1000
 param set-default MPC_XY_VEL_P_ACC 3.0000
-param set-default MPC_Z_VEL_D_ACC 0.2000
-param set-default MPC_Z_VEL_I_ACC 1.2000
+param set-default MPC_Z_VEL_D_ACC 0.0000
+param set-default MPC_Z_VEL_I_ACC 4.8000
 param set-default MPC_Z_VEL_MAX_DN 1.5000
 param set-default MPC_Z_VEL_MAX_UP 1.5000
 param set-default MPC_Z_VEL_P_ACC 5.7000
 param set-default MPC_Z_V_AUTO_UP 1.3000
+param set-default MPC_Z_P 0.3000
 
 # ESC driver params
 param set-default UART_ESC_CONFIG 1
 param set-default UART_ESC_MODE 1
-param set-default UART_ESC_MOTOR1 -2
-param set-default UART_ESC_MOTOR2 -4
-param set-default UART_ESC_MOTOR3 -1
-param set-default UART_ESC_MOTOR4 -3
 param set-default UART_ESC_RPM_MAX 24000
 param set-default UART_ESC_RPM_MIN 3000
 param set-default UART_ESC_BAUD 2000000
@@ -112,8 +111,9 @@ param set-default EKF2_REQ_EPH 6.0000
 param set-default EKF2_REQ_EPV 10.0000
 param set-default EKF2_REQ_PDOP 3.5000
 param set-default EKF2_REQ_SACC 1.0000
-param set-default EKF2_NOAID_NOISE 10.0
 param set-default EKF2_FP_ALIM 0.0
+param set-default EKF2_GRAV_NOISE 1.0
+param set-default EKF2_GND_EFF_DZ 0.0000
 
 # Single-instance EKF Params
 param set-default SENS_MAG_MODE 1
@@ -148,6 +148,8 @@ param set-default MAV_1_MODE 0
 param set-default PARAM_SET 3
 param set-default PARAM_SET_CHANL 6
 param set-default SER_TEL2_BAUD 115200
+param set-default OSD_CH_HEIGHT -2
+param set-default OSD_SYMBOLS 262913
 
 # follow up for further questioning
 param set-default CAL_MAG0_ROT 10
